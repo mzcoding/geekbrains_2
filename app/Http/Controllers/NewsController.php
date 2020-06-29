@@ -9,9 +9,14 @@ class NewsController extends Controller
 	protected $news = [
 		[
 			'id' => 1,
-			'title' => 'some title',
-			'text'  => 'some text'
- 		]
+			'title' => 'some <strong>title</strong>',
+			'text'  => 'some text <h1>Lorem ipsum</h1>'
+		],
+		[
+			'id' => 2,
+			'title' => 'Two news',
+			'text'  => 'Description news'
+		],
 	];
     public function index()
 	{
