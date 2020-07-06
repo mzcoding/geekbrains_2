@@ -17,3 +17,21 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/news', function() {
+	  $data = file_get_contents(storage_path('app/public/db.txt'));
+	  $e = explode("\n", $data);
+	  $response = [];
+	  $i = 0;
+	  foreach($e as $news) {
+	  	 $response[] = [
+	  	 	 'id'     => $i,
+			 'text'   => $news,
+			 'status' => 'published'
+		 ];
+	  	 $i++;
+	  }
+
+	  return response()->json($response, 400)
+		   ->header('Content-Type', 'application/json');
+});

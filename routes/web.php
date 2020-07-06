@@ -19,8 +19,10 @@ Route::get('/', 'NewsController@index')->name('news');
 Route::group(['prefix' => 'news'], function () {
  Route::get('/create', 'NewsController@create')->name('news.create');
  Route::post('/store', 'NewsController@store')->name('news.store');
+
  Route::get('/{id}/edit', 'NewsController@edit')
 	->where('id', '\d+')->name('news.edit');
+ Route::put('/{id}/update', 'NewsController@update')->name('news.update');
  Route::get('{slug}/show', 'NewsController@show')
 	->where('slug', '\w+')->name('news.show');
 });

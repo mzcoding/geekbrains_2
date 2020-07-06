@@ -9,10 +9,10 @@
         </h3>
         @forelse($news as $n)
         <div class="blog-post">
-            <h2 class="blog-post-title">{{ $n['title'] }}</h2>
-            <p class="blog-post-meta">January 1, 2014 by <a href="{{ route('news.edit', ['id' => $id]) }}">Изменить</a></p>
+            <h2 class="blog-post-title">{{ $n->title }}</h2>
+            <p class="blog-post-meta">January 1, 2014 by <a href="{{ route('news.edit', ['id' => $n->id]) }}">Изменить</a></p>
 
-            <p> {!! $n['text'] !!} </p>
+            <p> {!! $n->text !!} </p>
         </div><!-- /.blog-post -->
         @empty
             <h3>Сейчас новостей нет</h3>
