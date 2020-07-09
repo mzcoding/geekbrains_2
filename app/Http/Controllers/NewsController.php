@@ -3,53 +3,48 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\NewsCreateRequest;
-use App\News;
+use App\Models\News;
 use Illuminate\Http\Request;
 use Modules\Module;
 
 class NewsController extends Controller
 {
-	protected $news = [
-		[
-			'id' => 0,
-			'title' => 'some <strong>title</strong>',
-			'text'  => 'some text <h1>Lorem ipsum</h1>'
-		],
-		[
-			'id' => 1,
-			'title' => 'Two news',
-			'text'  => 'Description news'
-		],
-		[
-			'id' => 2,
-			'title' => 'Three news',
-			'text'  => 'Description news'
-		],
-	];
-
-    public function index()
-	{
-		$news = (new News())->getAllNews();
-		return view('news.index', ['news' => $news]) ;
-	}
+	/**
+	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 */
 	public function create()
 	{
-		return view('news.create') ;
+		return view('news.create', ['categories' => $this->getCategories()]) ;
 	}
-	public function edit(int $id)
+
+	/**
+	 * @param News $news
+	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 */
+	public function edit(News $news)
 	{
-		$news = (new News())->getFindNews($id);
-
-		if(!$news) {
-			return abort(404);
-		}
-
-
-		return view('news.edit', ['news' => $news]) ;
+		return view('news.edit', ['news' => $news, 'categories' => $this->getCategories()]) ;
 	}
+
+	/**
+	 * @param Request $request
+	 * @param int $id
+	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|void
+	 */
 	public function update(Request $request, int $id)
 	{
+        $news = News::find($id);
+        if(!$news) {
+        	 return abort(404);
+		}
 
+        $news->title = $request->input('title');
+        $news->text  = $request->input('text');
+        if($news->save()) {
+        	return redirect('/');
+		}
+
+        return back();
 	}
 	public function show(string $slug)
 	{
@@ -58,15 +53,17 @@ class NewsController extends Controller
 	}
 
 
+	/**
+	 * @param NewsCreateRequest $request
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
 	public function store(NewsCreateRequest $request)
 	{
-		$title = $request->input('title');
-		$text  = $request->input('text');
+		$news = News::create($request->validated());
+		if($news) {
+			return redirect()->route('news');
+		}
 
-
-		$str = "title:". $title . "- text:" . $text;
-		file_put_contents(storage_path('app/public/db.txt'), $str, FILE_APPEND);
-	   //save
-	   return redirect()->route('news');
+		return back();
 	}
 }

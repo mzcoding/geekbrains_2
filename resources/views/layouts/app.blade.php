@@ -55,8 +55,8 @@
         </div>
     </header>
 
-   <x-top-menu></x-top-menu>
-   <x-top-news></x-top-news>
+   <x-top-menu :categories="$categories"></x-top-menu>
+  <!-- <x-top-news></x-top-news> -->
 
 </div>
 

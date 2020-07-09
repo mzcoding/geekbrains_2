@@ -15,17 +15,29 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/admin',  'Admin\IndexController@index')->name('admin');
 
-Route::get('/', 'NewsController@index')->name('news');
+Route::get('/', 'HomeController@index')->name('news');
+Route::get('/category/{slug}', 'CategoryController@show')->name('categories');
+//categories
+Route::group(['prefix' => 'categories'], function() {
+	Route::get('/create', 'CategoryController@create')->name('categories.create');
+	Route::post('/store', 'CategoryController@store')->name('categories.store');
+	Route::get('/edit', 'CategoryController@edit')->name('categories.edit');
+	Route::put('/update', 'CategoryController@update')->name('categories.update');
+});
+//news
 Route::group(['prefix' => 'news'], function () {
  Route::get('/create', 'NewsController@create')->name('news.create');
  Route::post('/store', 'NewsController@store')->name('news.store');
 
- Route::get('/{id}/edit', 'NewsController@edit')
-	->where('id', '\d+')->name('news.edit');
+ Route::get('/{news}/edit', 'NewsController@edit')->name('news.edit');
  Route::put('/{id}/update', 'NewsController@update')->name('news.update');
  Route::get('{slug}/show', 'NewsController@show')
 	->where('slug', '\w+')->name('news.show');
 });
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/prices', function() {
+	$prices = collect([50, 100, 500, 1000]);
+	dd($prices->first());
+});
+
+//Auth::routes();

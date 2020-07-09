@@ -5,12 +5,13 @@
 @section('content')
     <div class="col-md-8 blog-main">
         <h3 class="pb-4 mb-4 font-italic border-bottom">
-            From the Firehose
+            Список новостей
         </h3>
         @forelse($news as $n)
         <div class="blog-post">
             <h2 class="blog-post-title">{{ $n->title }}</h2>
-            <p class="blog-post-meta">January 1, 2014 by <a href="{{ route('news.edit', ['id' => $n->id]) }}">Изменить</a></p>
+            <p class="blog-post-meta"> @if(!is_null($n->updated_at)) {{ $n->updated_at->format('d-m-Y H:i') }}
+                    @else {{ $n->created_at->format('d-m-Y H:i') }}  @endif <a href="{{ route('news.edit', ['news' => $n]) }}">Изменить</a></p>
 
             <p> {!! $n->text !!} </p>
         </div><!-- /.blog-post -->
@@ -21,8 +22,7 @@
 
 
         <nav class="blog-pagination">
-            <a class="btn btn-outline-primary" href="#">Older</a>
-            <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a>
+           {!! $news->links() !!}
         </nav>
 
     </div><!-- /.blog-main -->
