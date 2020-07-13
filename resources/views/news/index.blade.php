@@ -11,7 +11,8 @@
         <div class="blog-post">
             <h2 class="blog-post-title">{{ $n->title }}</h2>
             <p class="blog-post-meta"> @if(!is_null($n->updated_at)) {{ $n->updated_at->format('d-m-Y H:i') }}
-                    @else {{ $n->created_at->format('d-m-Y H:i') }}  @endif <a href="{{ route('news.edit', ['news' => $n]) }}">Изменить</a></p>
+                    @else {{ $n->created_at->format('d-m-Y H:i') }}  @endif
+                <a href="{{ route('news.edit', ['news' => $n]) }}">Изменить</a></p>
 
             <p> {!! $n->text !!} </p>
         </div><!-- /.blog-post -->
