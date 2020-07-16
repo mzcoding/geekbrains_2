@@ -20,11 +20,21 @@ Route::get('/category/{slug}', 'CategoryController@show')->name('categories');
 Route::get('/news/{slug}/show', 'NewsController@show')
 	->where('slug', '\w+')->name('news.show');
 
+Route::group(['middleware' => 'auth'], function() {
+Route::get('/logout', function() {
+	Auth::logout();
+	return redirect('/login');
+});
+//account
+Route::get('/account', 'Account\IndexController@index')->name('account');
+
 //admin
-Route::group(['prefix' => 'admin'], function() {
+Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
+	Route::get('/', 'Admin\IndexController@index')->name('admin');
 	Route::resource('/categories', Admin\CategoryController::class);
 	Route::resource('/news', Admin\NewsController::class);
 });
 
+});
 
-//Auth::routes();
+Auth::routes();
