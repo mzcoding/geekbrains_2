@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\NewsEditedEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NewsCreateRequest;
 use App\Http\Requests\NewsUpdateRequest;
@@ -14,11 +15,14 @@ class NewsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        //
+
+        $news = News::all();
+
+        return view('news.admin', ['news' => $news]);
     }
 
     /**
@@ -82,6 +86,8 @@ class NewsController extends Controller
 			$news->title = $request->input('title');
 			$news->text = $request->input('text');
 			if ($news->save()) {
+				event(new NewsEditedEvent($news));
+
 				return redirect('/');
 			}
 

@@ -43,6 +43,7 @@
 
                         <div class="form-group row">
                             <div class="col-md-6 offset-md-4">
+                                <a href="{{ route('vk.auth') }}">Войти через Вконтакте</a>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
@@ -58,6 +59,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Войти') }}
                                 </button>
+
 
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">

@@ -3,5 +3,10 @@
     @if(session()->has('error'))
         <h3 style="color:red;">{{ session()->get('error') }}</h3><br><br>
     @endif
-    <h2>Это кабинет пользователя, привет {{ Auth::user()->name }}</h2>
+    <div>
+        <p>Дата последнего входа: {{ $lastLogin }}</p>
+    </div>
+
+
+
 @stop
