@@ -36,10 +36,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
 });
 
 });
-Route::get('/parse/news', ParserController::class);
+Route::get('/parse/news', ParserController::class)->name('queue.parse');
 
 Route::group(['middleware' => 'guest'], function() {
 	Route::get('/vk/auth', 'SocialAuthController@vkAuth')->name('vk.auth');
 	Route::get('/vk/auth/callback', 'SocialAuthController@vkAuthCallback')->name('vk.callback');
 });
 Auth::routes();
+
+Route::get('/file', function() {
+	Storage::disk('public')->put('file.txt', 'Contents');
+});

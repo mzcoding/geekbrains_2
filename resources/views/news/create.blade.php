@@ -14,7 +14,7 @@
             @endforeach
         </div>
     @endif
-    <p>Текст:<br><input type="text" name="text" class="form-control" value="{{ old('text') }}"> </p>
+    <p>Текст:<br><textarea name="text" class="form-control" id="editor">{!! old('text') !!}</textarea> </p>
     @if($errors->has('text'))
         <div class="alert alert-danger">
             @foreach($errors->get('text') as $error)
@@ -26,3 +26,9 @@
 </form>
     </div>
 @stop
+@push('js')
+    <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+    <script>
+         CKEDITOR.replace('editor');
+    </script>
+@endpush
